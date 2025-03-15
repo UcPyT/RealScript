@@ -508,6 +508,26 @@ Tab1:AddTextbox({
 
 Tab1:AddParagraph("Clumsy : Recommendation","if you want to use Clusmy, use 1-2-3 :if you use this setting your ping he will go up like 130-160 But if use 10 your ping will go 600-700")
 
+local Tab10 = Window:MakeTab({
+	Name = "⚽️ | Moss-React",
+	Icon = "",
+	PremiumOnly = false
+})
+
+local Section = Tab2:AddSection({
+	Name = "10 React"
+})
+
+Tab10:AddButton({
+    Name = "Moss-React", 
+    Callback = function()
+        -- تحميل الكود من الرابط المحدد
+        local success, result = pcall(function()
+            return loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperAreTheBest1/Moss/refs/heads/main/React"))()   
+        end)
+    end    
+})
+
 local Tab2 = Window:MakeTab({
 	Name = "🚀  | React",
 	Icon = "",
