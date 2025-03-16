@@ -84,8 +84,8 @@ for i,char in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
     end
 end)
 
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/SuperAreTheBest1/RealScript/refs/heads/main/Hide')))()
-local Window = OrionLib:MakeWindow({Name = "S-RealScript ⚔️", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest", IntroText = "Welcome To S-RealScript"})
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 local Tab = Window:MakeTab({
 	Name = "🔍 | Turn Off Ex.",
