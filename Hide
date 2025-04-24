@@ -1,6 +1,6 @@
 -- قائمة الأسماء المسموح بها
 local whitelist = {
-    ["beardialgag"] = true,
+    ["Iuxr22_6633"] = true,
     ["اسم ثاني"] = true
 }
 
