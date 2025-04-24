@@ -1,1 +1,135 @@
+-- قائمة الأسماء المسموح بها
+local whitelist = {
+    ["beardialgag"] = true,
+    ["اسم ثاني"] = true
+}
+
+-- جلب اللاعب
+local player = game.Players.LocalPlayer
+local playerName = player.Name
+
+-- إنشاء واجهة الشاشة
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "WhitelistUI"
+screenGui.Parent = game.CoreGui
+
+-- إنشاء الإطار
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 300, 0, 150)
+frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- إنشاء النص
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, 0, 1, 0)
+label.Position = UDim2.new(0, 0, 0, 0)
+label.BackgroundTransparency = 1
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.TextScaled = true
+label.Font = Enum.Font.GothamBold
+label.Parent = frame
+
+-- التحقق من وجود اللاعب في القائمة
+if whitelist[playerName] then
+    label.Text = "✅ مرحباً "..playerName.."\nأنت في القائمة المسموح بها!"
+else
+    label.Text = "❌ آسف "..playerName.."\nأنت غير مصرح لك باستخدام السكربت."
+    wait(5)
+    screenGui:Destroy()
+    return
+end
+
+-- بعد التأكيد، إخفاء الواجهة وتشغيل سكربت موس
+wait(3)
+screenGui:Destroy()
+print("✅ تم السماح للاعب: "..playerName)
+
+-- سكربت الموس يبدأ من هنا
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+local head = char:WaitForChild("Head")
+
+local ballName = "Ball"
+local ball = nil
+
+-- إعدادات قابلة للتعديل
+local settings = {
+	reactDistance = 8,
+	powerBoost = 8500,
+	headBoost = 11000,
+	holdBallRange = 6,
+	controlSmoothness = 0.08,
+	zonePushBack = true,
+	zoneDistance = 6,
+}
+
+-- البحث عن الكرة
+local function findBall()
+	for _, obj in pairs(workspace:GetChildren()) do
+		if obj:IsA("Part") and obj.Name == ballName then
+			ball = obj
+			break
+		end
+	end
+end
+
+-- تعزيز رد الفعل والذكاء
+local function smartReact()
+	while true do
+		findBall()
+		if ball then
+			local dist = (ball.Position - hrp.Position).Magnitude
+			if dist <= settings.reactDistance then
+				local dir = (ball.Position - hrp.Position).Unit
+				ball.AssemblyLinearVelocity = dir * settings.powerBoost
+			end
+		end
+		task.wait(0.015)
+	end
+end
+
+-- تحسين قوة الرأس تلقائيًا
+head.Touched:Connect(function(hit)
+	if hit:IsA("Part") and hit.Name == ballName then
+		local dir = (hit.Position - head.Position).Unit
+		hit.AssemblyLinearVelocity = dir * settings.headBoost
+	end
+end)
+
+-- سلاسة وتحكم فائق بالكرة
+local function smoothControl()
+	while true do
+		if ball and (ball.Position - hrp.Position).Magnitude <= settings.holdBallRange then
+			local targetPos = hrp.Position + hrp.CFrame.LookVector * 2
+			ball.Velocity = (targetPos - ball.Position) / settings.controlSmoothness
+		end
+		task.wait(0.01)
+	end
+end
+
+-- إبعاد أي لاعب يقترب من الكرة
+local function zoneBlock()
+	while settings.zonePushBack do
+		if ball then
+			for _, plr in pairs(game.Players:GetPlayers()) do
+				if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+					local enemyHRP = plr.Character.HumanoidRootPart
+					local dist = (ball.Position - enemyHRP.Position).Magnitude
+					if dist <= settings.zoneDistance then
+						local dir = (enemyHRP.Position - ball.Position).Unit
+						ball.AssemblyLinearVelocity = -dir * settings.powerBoost
+					end
+				end
+			end
+		end
+		task.wait(0.03)
+	end
+end
+
+-- تشغيل جميع الأنظمة
+task.spawn(smartReact)
+task.spawn(smoothControl)
+task.spawn(zoneBlock)
 
