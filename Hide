@@ -1,1 +1,19 @@
+local playerName = "telddaughter"
+local head = workspace:FindFirstChild(playerName) and workspace[playerName]:FindFirstChild("Head")
 
+if head then
+    head.CanCollide = false
+    head.CanQuery = false
+    head.CanTouch = true
+    head.Shape = Enum.PartType.Wedge
+    head.CustomPhysicalProperties = PhysicalProperties.new(1, 0.3, 0.5)
+end
+
+
+local ball = workspace:FindFirstChild("TPSSYSTEM") and workspace.TPSSYSTEM:FindFirstChild("TPS")
+
+if ball then
+    ball.CanCollide = false
+    ball.CanQuery = false
+    ball.CanTouch = true
+end
