@@ -28,7 +28,7 @@ for _, p in pairs(game.Players:GetPlayers()) do
 			local otherHRP = char:WaitForChild("HumanoidRootPart")
 			game:GetService("RunService").Heartbeat:Connect(function()
 				if (ball.Position - otherHRP.Position).Magnitude < 4 then
-					ball.Velocity = ball.Velocity * 0.2 -- يصير تحكمهم ضعيف
+					ball.Velocity = ball.Velocity * 0.2 
 				end
 			end)
 		end)
