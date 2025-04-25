@@ -1,6 +1,6 @@
 -- قائمة الأسماء المسموح بها
 local whitelist = {
-    ["Iuxr22_6633"] = true,
+    ["domkeybin"] = true,
     ["اسم ثاني"] = true
 }
 
