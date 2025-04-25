@@ -1,3 +1,5 @@
+print("✅ Script React 75% Work")
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local hrp = character:WaitForChild("HumanoidRootPart")
